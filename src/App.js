@@ -21,7 +21,7 @@ class App extends React.Component {
   }
   fetchTags(e) {
     e.preventDefault();
-    // http://localhost:5001/mystical-option-280602/us-central1/webApi/fetch?url=https://web.dev/betty-crocker/
+    // http://localhost:5001/mystical-option-280602/us-central1/webApi/fetch?url=
     axios.get(`http://localhost:5001/mystical-option-280602/us-central1/webApi/fetch?url=${this.state.url}`)
       .then(
         (result) => {
@@ -36,6 +36,7 @@ class App extends React.Component {
   }
   postUrlWithTags(e) {
     e.preventDefault();
+    // axios.post()
     this.setState({ url: '', loaded: false })
   }
   render() {
