@@ -8,16 +8,26 @@ class App extends React.Component {
     this.state = {
       url: '',
       tags: [],
+      selectedTags: [],
       loaded: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.fetchTags = this.fetchTags.bind(this);
+    this.postUrlWithTags = this.postUrlWithTags.bind(this);
   }
   handleChange(e) {
     this.setState({
       [e.target.name] : e.target.value
     })
+  }
+  isSeclectedTags(tag) {
+    // TODO: clicked css effect
+    this.setState(state => {
+      const selectedTags = state.selectedTags.concat(tag)
+      return { selectedTags }
+    })
+
   }
   fetchTags(e) {
     e.preventDefault();
@@ -25,8 +35,8 @@ class App extends React.Component {
     axios.get(`http://localhost:5001/mystical-option-280602/us-central1/webApi/fetch?url=${this.state.url}`)
       .then(
         (result) => {
-          let tags = result.data.tags.map((tag, i) => tag.name);
-          tags.push('etc')
+          let tags = result.data.tags; //.map((tag, i) => tag.name);
+          tags.push({name: 'etc'})
           this.setState({ tags, loaded: true })
         },
         (error) => {
@@ -36,8 +46,11 @@ class App extends React.Component {
   }
   postUrlWithTags(e) {
     e.preventDefault();
-    // axios.post()
-    this.setState({ url: '', loaded: false })
+    const {url, selectedTags} = this.state;
+    axios.post('http://localhost:5001/mystical-option-280602/us-central1/webApi/postUrl', {
+      url, tags: selectedTags
+    })
+    this.setState({ url: '', selectedTags: [], tags: [], loaded: false })
   }
   render() {
     return (
@@ -46,7 +59,7 @@ class App extends React.Component {
         {
           this.state.tags.length > 0 &&
             <div className="tags-cont"> 
-              { this.state.tags.map((tag, i) => <p key={i}>{tag}</p>) }
+              { this.state.tags.map((tag, i) => <p key={i} onClick={() => this.isSeclectedTags(tag)}>{tag.name}</p>) }
               <p>Add TAG</p> 
             </div>
         }
