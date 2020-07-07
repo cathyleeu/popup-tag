@@ -4,15 +4,12 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
+} from 'react-router-dom';
 import PopUpTags from './PopUpTags';
 import GuessMe from './GuessMe';
 import './App.css';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <Router>

@@ -40,14 +40,14 @@ class PopUpTags extends React.Component {
           this.setState({ tags, loaded: true })
         },
         (error) => {
-          console.log('ERROR');
+          console.log('ERROR', error);
         }
       )
   }
   postUrlWithTags(e) {
     e.preventDefault();
     const {url, selectedTags} = this.state;
-    axios.post('http://localhost:5001/mystical-option-280602/us-central1/webApi/postUrl', {
+    axios.post('http://localhost:5001/mystical-option-280602/us-central1/webApi/analyze', {
       url, tags: selectedTags
     })
     this.setState({ url: '', selectedTags: [], tags: [], loaded: false })
